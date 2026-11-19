@@ -8,24 +8,26 @@
 <style>
   :root {
     color-scheme: light dark;
-    --bg: #FBF7EE;
+    --bg: #FAF9F5;
     --panel: #FFFFFF;
-    --panel-alt: #F3EDDD;
-    --hairline: #E4D8B8;
-    --ink: #2B2417;
-    --muted: #7A7160;
-    --brass: #9C7A2E;
-    --brass-dim: #B89552;
-    --positive: #2E7D4F;
-    --negative: #B23A2E;
-    --neutral: #6B7280;
-    --caution: #B5691A;
+    --panel-alt: #F1EEE4;
+    --hairline: #ECE8DC;
+    --ink: #1F2430;
+    --muted: #6B6F78;
+    --brass: #2F6F9F;
+    --brass-dim: #9DB8D0;
+    --positive: #5BA378;
+    --negative: #C0392B;
+    --neutral: #8B96A8;
+    --caution: #D9791F;
     --gauge-fill-opacity: 0.90;
     --card-bar-opacity: 0.85;
     --card-comment-opacity: 0.90;
-    --breach-panel-rgba: rgba(178, 58, 46, 0.12);
+    --breach-panel-rgba: rgba(192, 57, 43, 0.12);
     --chart-area-opacity-top: 0.32;
-    --price-line: #2B2B2B;
+    --price-line: #5B6B82;
+    --tb-up: #2E7D4F;
+    --tb-down: #B23A2E;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -42,6 +44,8 @@
     --neutral: #8B96A8;
     --caution: #D9791F;
     --price-line: #C9CED8;
+    --tb-up: #5BA378;
+    --tb-down: #D1584A;
     --gauge-fill-opacity: 0.55;
     --card-bar-opacity: 0.7;
     --card-comment-opacity: 0.85;
@@ -488,8 +492,8 @@
           <stop offset="100%" style="stop-color:var(--brass);stop-opacity:0;"/>
         </linearGradient>
       </defs>
-      <path d="M 4.0,95.2 L 6.7,93.7 L 9.4,94.8 L 12.1,95.5 L 14.8,96.1 L 17.4,95.0 L 20.1,94.3 L 22.8,95.3 L 25.5,91.0 L 28.2,90.8 L 30.9,92.5 L 33.6,94.9 L 36.3,93.1 L 38.9,89.5 L 41.6,88.6 L 44.3,89.5 L 47.0,88.7 L 49.7,87.2 L 52.4,84.3 L 55.1,86.4 L 57.8,87.6 L 60.4,86.7 L 63.1,86.6 L 65.8,87.2 L 68.5,87.6 L 71.2,86.6 L 73.9,87.5 L 76.6,90.3 L 79.3,88.9 L 82.0,88.1 L 84.6,83.5 L 87.3,79.5 L 90.0,73.1 L 92.7,73.0 L 95.4,71.9 L 98.1,69.7 L 100.8,68.6 L 103.5,66.0 L 106.1,66.3 L 108.8,64.6 L 111.5,60.5 L 114.2,58.9 L 116.9,57.8 L 119.6,59.3 L 122.3,56.9 L 125.0,54.1 L 127.6,50.5 L 130.3,51.8 L 133.0,45.9 L 135.7,37.6 L 138.4,37.5 L 141.1,41.7 L 143.8,36.7 L 146.5,36.4 L 149.2,42.4 L 151.8,43.7 L 154.5,37.5 L 157.2,38.3 L 159.9,38.5 L 162.6,30.7 L 165.3,30.7 L 168.0,27.6 L 170.7,29.8 L 173.3,29.2 L 176.0,38.1 L 178.7,35.6 L 181.4,33.1 L 184.1,33.3 L 186.8,38.0 L 189.5,36.7 L 192.2,39.8 L 194.8,47.1 L 197.5,55.3 L 200.2,55.1 L 202.9,52.4 L 205.6,58.0 L 208.3,59.8 L 211.0,50.5 L 213.7,50.0 L 216.4,48.3 L 219.0,52.1 L 221.7,54.8 L 224.4,49.7 L 227.1,51.7 L 229.8,53.0 L 232.5,50.6 L 235.2,55.3 L 237.9,54.7 L 240.5,59.3 L 243.2,59.9 L 245.9,61.3 L 248.6,58.1 L 251.3,55.2 L 254.0,52.9 L 256.7,55.2 L 259.4,51.7 L 262.0,55.5 L 264.7,43.4 L 267.4,40.4 L 270.1,32.8 L 272.8,33.1 L 275.5,30.3 L 278.2,29.3 L 280.9,30.3 L 283.6,22.7 L 286.2,24.8 L 288.9,26.9 L 291.6,27.7 L 294.3,26.2 L 297.0,22.6 L 299.7,27.8 L 302.4,28.2 L 305.1,25.6 L 307.7,27.0 L 310.4,24.5 L 313.1,16.2 L 315.8,13.8 L 318.5,13.4 L 321.2,12.0 L 323.9,19.0 L 326.6,22.5 L 329.2,21.6 L 331.9,27.1 L 334.6,33.7 L 337.3,34.1 L 340.0,50.7 L 342.7,38.1 L 345.4,36.4 L 348.1,40.9 L 350.8,40.1 L 353.4,30.4 L 356.1,35.0 L 358.8,36.8 L 361.5,40.3 L 364.2,37.0 L 366.9,39.4 L 369.6,39.3 L 372.3,39.3 L 374.9,35.5 L 377.6,25.5 L 380.3,24.6 L 383.0,26.0 L 385.7,18.0 L 388.4,19.8 L 391.1,19.9 L 393.8,23.7 L 396.4,27.8 L 399.1,29.2 L 401.8,28.9 L 404.5,30.7 L 407.2,31.9 L 409.9,27.4 L 412.6,25.3 L 415.3,26.1 L 418.0,25.9 L 420.6,24.5 L 423.3,30.6 L 426.0,32.2 L 428.7,28.0 L 431.4,32.5 L 434.1,32.7 L 436.8,29.3 L 439.5,34.7 L 442.1,32.9 L 444.8,34.8 L 447.5,31.6 L 450.2,32.8 L 452.9,35.4 L 455.6,38.7 L 458.3,40.4 L 461.0,44.1 L 463.6,48.2 L 466.3,44.9 L 469.0,45.9 L 471.7,40.4 L 474.4,40.1 L 477.1,38.2 L 479.8,38.6 L 482.5,38.0 L 485.2,40.1 L 487.8,32.1 L 490.5,31.7 L 493.2,30.9 L 495.9,31.7 L 498.6,31.8 L 501.3,25.3 L 504.0,26.5 L 506.7,24.2 L 509.3,24.4 L 512.0,25.0 L 514.7,22.3 L 517.4,23.0 L 520.1,21.7 L 522.8,27.7 L 525.5,29.8 L 528.2,33.3 L 530.8,35.6 L 533.5,34.0 L 536.2,31.3 L 538.9,26.3 L 541.6,24.3 L 544.3,26.5 L 547.0,25.1 L 549.7,29.7 L 552.4,36.4 L 555.0,51.5 L 557.7,43.9 L 560.4,48.4 L 563.1,47.3 L 565.8,50.0 L 568.5,49.0 L 571.2,56.1 L 573.9,55.9 L 576.5,62.0 L 579.2,67.9 L 581.9,74.6 L 584.6,68.7 L 587.3,68.3 L 590.0,64.9 L 592.7,66.3 L 595.4,71.2 L 598.0,69.4 L 600.7,68.4 L 603.4,70.6 L 606.1,68.7 L 608.8,71.3 L 611.5,72.2 L 614.2,79.1 L 616.9,84.8 L 619.6,77.6 L 622.2,81.9 L 624.9,88.9 L 627.6,91.0 L 630.3,90.3 L 633.0,90.3 L 635.7,90.0 L 638.4,98.0 L 641.1,94.0 L 643.7,92.8 L 646.4,83.9 L 649.1,86.7 L 651.8,83.8 L 654.5,79.3 L 657.2,80.3 L 659.9,80.2 L 662.6,77.3 L 665.2,76.7 L 667.9,76.7 L 670.6,80.3 L 673.3,83.9 L 676.0,84.4 L 676.0,98.0 L 4.0,98.0 Z" fill="url(#chartAreaGradient)" stroke="none"></path>
-      <path d="M 4.0,95.2 L 6.7,93.7 L 9.4,94.8 L 12.1,95.5 L 14.8,96.1 L 17.4,95.0 L 20.1,94.3 L 22.8,95.3 L 25.5,91.0 L 28.2,90.8 L 30.9,92.5 L 33.6,94.9 L 36.3,93.1 L 38.9,89.5 L 41.6,88.6 L 44.3,89.5 L 47.0,88.7 L 49.7,87.2 L 52.4,84.3 L 55.1,86.4 L 57.8,87.6 L 60.4,86.7 L 63.1,86.6 L 65.8,87.2 L 68.5,87.6 L 71.2,86.6 L 73.9,87.5 L 76.6,90.3 L 79.3,88.9 L 82.0,88.1 L 84.6,83.5 L 87.3,79.5 L 90.0,73.1 L 92.7,73.0 L 95.4,71.9 L 98.1,69.7 L 100.8,68.6 L 103.5,66.0 L 106.1,66.3 L 108.8,64.6 L 111.5,60.5 L 114.2,58.9 L 116.9,57.8 L 119.6,59.3 L 122.3,56.9 L 125.0,54.1 L 127.6,50.5 L 130.3,51.8 L 133.0,45.9 L 135.7,37.6 L 138.4,37.5 L 141.1,41.7 L 143.8,36.7 L 146.5,36.4 L 149.2,42.4 L 151.8,43.7 L 154.5,37.5 L 157.2,38.3 L 159.9,38.5 L 162.6,30.7 L 165.3,30.7 L 168.0,27.6 L 170.7,29.8 L 173.3,29.2 L 176.0,38.1 L 178.7,35.6 L 181.4,33.1 L 184.1,33.3 L 186.8,38.0 L 189.5,36.7 L 192.2,39.8 L 194.8,47.1 L 197.5,55.3 L 200.2,55.1 L 202.9,52.4 L 205.6,58.0 L 208.3,59.8 L 211.0,50.5 L 213.7,50.0 L 216.4,48.3 L 219.0,52.1 L 221.7,54.8 L 224.4,49.7 L 227.1,51.7 L 229.8,53.0 L 232.5,50.6 L 235.2,55.3 L 237.9,54.7 L 240.5,59.3 L 243.2,59.9 L 245.9,61.3 L 248.6,58.1 L 251.3,55.2 L 254.0,52.9 L 256.7,55.2 L 259.4,51.7 L 262.0,55.5 L 264.7,43.4 L 267.4,40.4 L 270.1,32.8 L 272.8,33.1 L 275.5,30.3 L 278.2,29.3 L 280.9,30.3 L 283.6,22.7 L 286.2,24.8 L 288.9,26.9 L 291.6,27.7 L 294.3,26.2 L 297.0,22.6 L 299.7,27.8 L 302.4,28.2 L 305.1,25.6 L 307.7,27.0 L 310.4,24.5 L 313.1,16.2 L 315.8,13.8 L 318.5,13.4 L 321.2,12.0 L 323.9,19.0 L 326.6,22.5 L 329.2,21.6 L 331.9,27.1 L 334.6,33.7 L 337.3,34.1 L 340.0,50.7 L 342.7,38.1 L 345.4,36.4 L 348.1,40.9 L 350.8,40.1 L 353.4,30.4 L 356.1,35.0 L 358.8,36.8 L 361.5,40.3 L 364.2,37.0 L 366.9,39.4 L 369.6,39.3 L 372.3,39.3 L 374.9,35.5 L 377.6,25.5 L 380.3,24.6 L 383.0,26.0 L 385.7,18.0 L 388.4,19.8 L 391.1,19.9 L 393.8,23.7 L 396.4,27.8 L 399.1,29.2 L 401.8,28.9 L 404.5,30.7 L 407.2,31.9 L 409.9,27.4 L 412.6,25.3 L 415.3,26.1 L 418.0,25.9 L 420.6,24.5 L 423.3,30.6 L 426.0,32.2 L 428.7,28.0 L 431.4,32.5 L 434.1,32.7 L 436.8,29.3 L 439.5,34.7 L 442.1,32.9 L 444.8,34.8 L 447.5,31.6 L 450.2,32.8 L 452.9,35.4 L 455.6,38.7 L 458.3,40.4 L 461.0,44.1 L 463.6,48.2 L 466.3,44.9 L 469.0,45.9 L 471.7,40.4 L 474.4,40.1 L 477.1,38.2 L 479.8,38.6 L 482.5,38.0 L 485.2,40.1 L 487.8,32.1 L 490.5,31.7 L 493.2,30.9 L 495.9,31.7 L 498.6,31.8 L 501.3,25.3 L 504.0,26.5 L 506.7,24.2 L 509.3,24.4 L 512.0,25.0 L 514.7,22.3 L 517.4,23.0 L 520.1,21.7 L 522.8,27.7 L 525.5,29.8 L 528.2,33.3 L 530.8,35.6 L 533.5,34.0 L 536.2,31.3 L 538.9,26.3 L 541.6,24.3 L 544.3,26.5 L 547.0,25.1 L 549.7,29.7 L 552.4,36.4 L 555.0,51.5 L 557.7,43.9 L 560.4,48.4 L 563.1,47.3 L 565.8,50.0 L 568.5,49.0 L 571.2,56.1 L 573.9,55.9 L 576.5,62.0 L 579.2,67.9 L 581.9,74.6 L 584.6,68.7 L 587.3,68.3 L 590.0,64.9 L 592.7,66.3 L 595.4,71.2 L 598.0,69.4 L 600.7,68.4 L 603.4,70.6 L 606.1,68.7 L 608.8,71.3 L 611.5,72.2 L 614.2,79.1 L 616.9,84.8 L 619.6,77.6 L 622.2,81.9 L 624.9,88.9 L 627.6,91.0 L 630.3,90.3 L 633.0,90.3 L 635.7,90.0 L 638.4,98.0 L 641.1,94.0 L 643.7,92.8 L 646.4,83.9 L 649.1,86.7 L 651.8,83.8 L 654.5,79.3 L 657.2,80.3 L 659.9,80.2 L 662.6,77.3 L 665.2,76.7 L 667.9,76.7 L 670.6,80.3 L 673.3,83.9 L 676.0,84.4" fill="none" stroke="var(--brass)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></path>
+      <path d="M 4.0,95.2 L 6.7,93.7 L 9.4,94.8 L 12.1,95.5 L 14.8,96.1 L 17.4,95.0 L 20.1,94.3 L 22.8,95.3 L 25.5,91.0 L 28.2,90.8 L 30.9,92.5 L 33.6,94.9 L 36.3,93.1 L 38.9,89.5 L 41.6,88.6 L 44.3,89.5 L 47.0,88.7 L 49.7,87.2 L 52.4,84.3 L 55.1,86.4 L 57.8,87.6 L 60.4,86.7 L 63.1,86.6 L 65.8,87.2 L 68.5,87.6 L 71.2,86.6 L 73.9,87.5 L 76.6,90.3 L 79.3,88.9 L 82.0,88.1 L 84.6,83.5 L 87.3,79.5 L 90.0,73.1 L 92.7,73.0 L 95.4,71.9 L 98.1,69.7 L 100.8,68.6 L 103.5,66.0 L 106.1,66.3 L 108.8,64.6 L 111.5,60.5 L 114.2,58.9 L 116.9,57.8 L 119.6,59.3 L 122.3,56.9 L 125.0,54.1 L 127.6,50.5 L 130.3,51.8 L 133.0,45.9 L 135.7,37.6 L 138.4,37.5 L 141.1,41.7 L 143.8,36.7 L 146.5,36.4 L 149.2,42.4 L 151.8,43.7 L 154.5,37.5 L 157.2,38.3 L 159.9,38.5 L 162.6,30.7 L 165.3,30.7 L 168.0,27.6 L 170.7,29.8 L 173.3,29.2 L 176.0,38.1 L 178.7,35.6 L 181.4,33.1 L 184.1,33.3 L 186.8,38.0 L 189.5,36.7 L 192.2,39.8 L 194.8,47.1 L 197.5,55.3 L 200.2,55.1 L 202.9,52.4 L 205.6,58.0 L 208.3,59.8 L 211.0,50.5 L 213.7,50.0 L 216.4,48.3 L 219.0,52.1 L 221.7,54.8 L 224.4,49.7 L 227.1,51.7 L 229.8,53.0 L 232.5,50.6 L 235.2,55.3 L 237.9,54.7 L 240.5,59.3 L 243.2,59.9 L 245.9,61.3 L 248.6,58.1 L 251.3,55.2 L 254.0,52.9 L 256.7,55.2 L 259.4,51.7 L 262.0,55.5 L 264.7,43.4 L 267.4,40.4 L 270.1,32.8 L 272.8,33.1 L 275.5,30.3 L 278.2,29.3 L 280.9,30.3 L 283.6,22.7 L 286.2,24.8 L 288.9,26.9 L 291.6,27.7 L 294.3,26.2 L 297.0,22.6 L 299.7,27.8 L 302.4,28.2 L 305.1,25.6 L 307.7,27.0 L 310.4,24.5 L 313.1,16.2 L 315.8,13.8 L 318.5,13.4 L 321.2,12.0 L 323.9,19.0 L 326.6,22.5 L 329.2,21.6 L 331.9,27.1 L 334.6,33.7 L 337.3,34.1 L 340.0,50.7 L 342.7,38.1 L 345.4,36.4 L 348.1,40.9 L 350.8,40.1 L 353.4,30.4 L 356.1,35.0 L 358.8,36.8 L 361.5,40.3 L 364.2,37.0 L 366.9,39.4 L 369.6,39.3 L 372.3,39.3 L 374.9,35.5 L 377.6,25.5 L 380.3,24.6 L 383.0,26.0 L 385.7,18.0 L 388.4,19.8 L 391.1,19.9 L 393.8,23.7 L 396.4,27.8 L 399.1,29.2 L 401.8,28.9 L 404.5,30.7 L 407.2,31.9 L 409.9,27.4 L 412.6,25.3 L 415.3,26.1 L 418.0,25.9 L 420.6,24.5 L 423.3,30.6 L 426.0,32.2 L 428.7,28.0 L 431.4,32.5 L 434.1,32.7 L 436.8,29.3 L 439.5,34.7 L 442.1,32.9 L 444.8,34.8 L 447.5,31.6 L 450.2,32.8 L 452.9,35.4 L 455.6,38.7 L 458.3,40.4 L 461.0,44.1 L 463.6,48.2 L 466.3,44.9 L 469.0,45.9 L 471.7,40.4 L 474.4,40.1 L 477.1,38.2 L 479.8,38.6 L 482.5,38.0 L 485.2,40.1 L 487.8,32.1 L 490.5,31.7 L 493.2,30.9 L 495.9,31.7 L 498.6,31.8 L 501.3,25.3 L 504.0,26.5 L 506.7,24.2 L 509.3,24.4 L 512.0,25.0 L 514.7,22.3 L 517.4,23.0 L 520.1,21.7 L 522.8,27.7 L 525.5,29.8 L 528.2,33.3 L 530.8,35.6 L 533.5,34.0 L 536.2,31.3 L 538.9,26.3 L 541.6,24.3 L 544.3,26.5 L 547.0,25.1 L 549.7,29.7 L 552.4,36.4 L 555.0,51.5 L 557.7,43.9 L 560.4,48.4 L 563.1,47.3 L 565.8,50.0 L 568.5,49.0 L 571.2,56.1 L 573.9,55.9 L 576.5,62.0 L 579.2,67.9 L 581.9,74.6 L 584.6,68.7 L 587.3,68.3 L 590.0,64.9 L 592.7,66.3 L 595.4,71.2 L 598.0,69.4 L 600.7,68.4 L 603.4,70.6 L 606.1,68.7 L 608.8,71.3 L 611.5,72.2 L 614.2,79.1 L 616.9,84.8 L 619.6,77.6 L 622.2,81.9 L 624.9,88.9 L 627.6,91.0 L 630.3,90.3 L 633.0,90.3 L 635.7,90.0 L 638.4,98.0 L 641.1,94.0 L 643.7,92.8 L 646.4,83.9 L 649.1,86.7 L 651.8,83.8 L 654.5,79.3 L 657.2,80.3 L 659.9,80.2 L 662.6,77.3 L 665.2,76.7 L 667.9,76.7 L 670.6,80.3 L 673.3,83.9 L 676.0,84.1 L 676.0,98.0 L 4.0,98.0 Z" fill="url(#chartAreaGradient)" stroke="none"></path>
+      <path d="M 4.0,95.2 L 6.7,93.7 L 9.4,94.8 L 12.1,95.5 L 14.8,96.1 L 17.4,95.0 L 20.1,94.3 L 22.8,95.3 L 25.5,91.0 L 28.2,90.8 L 30.9,92.5 L 33.6,94.9 L 36.3,93.1 L 38.9,89.5 L 41.6,88.6 L 44.3,89.5 L 47.0,88.7 L 49.7,87.2 L 52.4,84.3 L 55.1,86.4 L 57.8,87.6 L 60.4,86.7 L 63.1,86.6 L 65.8,87.2 L 68.5,87.6 L 71.2,86.6 L 73.9,87.5 L 76.6,90.3 L 79.3,88.9 L 82.0,88.1 L 84.6,83.5 L 87.3,79.5 L 90.0,73.1 L 92.7,73.0 L 95.4,71.9 L 98.1,69.7 L 100.8,68.6 L 103.5,66.0 L 106.1,66.3 L 108.8,64.6 L 111.5,60.5 L 114.2,58.9 L 116.9,57.8 L 119.6,59.3 L 122.3,56.9 L 125.0,54.1 L 127.6,50.5 L 130.3,51.8 L 133.0,45.9 L 135.7,37.6 L 138.4,37.5 L 141.1,41.7 L 143.8,36.7 L 146.5,36.4 L 149.2,42.4 L 151.8,43.7 L 154.5,37.5 L 157.2,38.3 L 159.9,38.5 L 162.6,30.7 L 165.3,30.7 L 168.0,27.6 L 170.7,29.8 L 173.3,29.2 L 176.0,38.1 L 178.7,35.6 L 181.4,33.1 L 184.1,33.3 L 186.8,38.0 L 189.5,36.7 L 192.2,39.8 L 194.8,47.1 L 197.5,55.3 L 200.2,55.1 L 202.9,52.4 L 205.6,58.0 L 208.3,59.8 L 211.0,50.5 L 213.7,50.0 L 216.4,48.3 L 219.0,52.1 L 221.7,54.8 L 224.4,49.7 L 227.1,51.7 L 229.8,53.0 L 232.5,50.6 L 235.2,55.3 L 237.9,54.7 L 240.5,59.3 L 243.2,59.9 L 245.9,61.3 L 248.6,58.1 L 251.3,55.2 L 254.0,52.9 L 256.7,55.2 L 259.4,51.7 L 262.0,55.5 L 264.7,43.4 L 267.4,40.4 L 270.1,32.8 L 272.8,33.1 L 275.5,30.3 L 278.2,29.3 L 280.9,30.3 L 283.6,22.7 L 286.2,24.8 L 288.9,26.9 L 291.6,27.7 L 294.3,26.2 L 297.0,22.6 L 299.7,27.8 L 302.4,28.2 L 305.1,25.6 L 307.7,27.0 L 310.4,24.5 L 313.1,16.2 L 315.8,13.8 L 318.5,13.4 L 321.2,12.0 L 323.9,19.0 L 326.6,22.5 L 329.2,21.6 L 331.9,27.1 L 334.6,33.7 L 337.3,34.1 L 340.0,50.7 L 342.7,38.1 L 345.4,36.4 L 348.1,40.9 L 350.8,40.1 L 353.4,30.4 L 356.1,35.0 L 358.8,36.8 L 361.5,40.3 L 364.2,37.0 L 366.9,39.4 L 369.6,39.3 L 372.3,39.3 L 374.9,35.5 L 377.6,25.5 L 380.3,24.6 L 383.0,26.0 L 385.7,18.0 L 388.4,19.8 L 391.1,19.9 L 393.8,23.7 L 396.4,27.8 L 399.1,29.2 L 401.8,28.9 L 404.5,30.7 L 407.2,31.9 L 409.9,27.4 L 412.6,25.3 L 415.3,26.1 L 418.0,25.9 L 420.6,24.5 L 423.3,30.6 L 426.0,32.2 L 428.7,28.0 L 431.4,32.5 L 434.1,32.7 L 436.8,29.3 L 439.5,34.7 L 442.1,32.9 L 444.8,34.8 L 447.5,31.6 L 450.2,32.8 L 452.9,35.4 L 455.6,38.7 L 458.3,40.4 L 461.0,44.1 L 463.6,48.2 L 466.3,44.9 L 469.0,45.9 L 471.7,40.4 L 474.4,40.1 L 477.1,38.2 L 479.8,38.6 L 482.5,38.0 L 485.2,40.1 L 487.8,32.1 L 490.5,31.7 L 493.2,30.9 L 495.9,31.7 L 498.6,31.8 L 501.3,25.3 L 504.0,26.5 L 506.7,24.2 L 509.3,24.4 L 512.0,25.0 L 514.7,22.3 L 517.4,23.0 L 520.1,21.7 L 522.8,27.7 L 525.5,29.8 L 528.2,33.3 L 530.8,35.6 L 533.5,34.0 L 536.2,31.3 L 538.9,26.3 L 541.6,24.3 L 544.3,26.5 L 547.0,25.1 L 549.7,29.7 L 552.4,36.4 L 555.0,51.5 L 557.7,43.9 L 560.4,48.4 L 563.1,47.3 L 565.8,50.0 L 568.5,49.0 L 571.2,56.1 L 573.9,55.9 L 576.5,62.0 L 579.2,67.9 L 581.9,74.6 L 584.6,68.7 L 587.3,68.3 L 590.0,64.9 L 592.7,66.3 L 595.4,71.2 L 598.0,69.4 L 600.7,68.4 L 603.4,70.6 L 606.1,68.7 L 608.8,71.3 L 611.5,72.2 L 614.2,79.1 L 616.9,84.8 L 619.6,77.6 L 622.2,81.9 L 624.9,88.9 L 627.6,91.0 L 630.3,90.3 L 633.0,90.3 L 635.7,90.0 L 638.4,98.0 L 641.1,94.0 L 643.7,92.8 L 646.4,83.9 L 649.1,86.7 L 651.8,83.8 L 654.5,79.3 L 657.2,80.3 L 659.9,80.2 L 662.6,77.3 L 665.2,76.7 L 667.9,76.7 L 670.6,80.3 L 673.3,83.9 L 676.0,84.1" fill="none" stroke="var(--brass)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></path>
       <text x="4" y="114" class="chart-label">2025-11</text>
       <text x="676" y="114" class="chart-label" text-anchor="end">2026-11</text>
       <text x="676" y="20" class="chart-label chart-hi" text-anchor="end">15,134</text>
@@ -502,9 +506,9 @@
         <div class="tech-behavior-panel">
           <div class="tech-behavior-title">Teknik Davranış Notu <span class="tech-behavior-disclaimer">(fiyat &amp; hacim bazlı — Ortam skorunu etkilemez)</span></div>
           <div class="tech-behavior-body">
-            Trend: <b>Aşağı</b>
-            &nbsp;·&nbsp; Momentum: <b>Güçlü</b>
-            &nbsp;·&nbsp; Faz: <b>Dağıtma</b>
+            Trend: <b style="color:var(--tb-down);">Aşağı</b>
+            &nbsp;·&nbsp; Momentum: <b style="color:var(--tb-down);">Güçlü</b>
+            &nbsp;·&nbsp; Faz: <b style="color:var(--tb-down);">Dağıtma</b>
           </div>
         </div>
         
@@ -516,8 +520,8 @@
         <div class="gauge-zone" style="width:6.00%; background:var(--caution); "><span class="gauge-zone-label">TEMKİNLİ</span></div>
         <div class="gauge-zone" style="width:5.00%; background:var(--neutral); "><span class="gauge-zone-label">NÖTR</span></div>
         <div class="gauge-zone" style="width:41.00%; background:var(--positive); border-radius:0 5px 5px 0;"><span class="gauge-zone-label">DESTEKLEYİCİ</span></div></div>
-        <div class="needle" style="left:30.0%">
-          <div class="needle-value">30.0</div>
+        <div class="needle" style="left:34.0%">
+          <div class="needle-value">34.0</div>
           <div class="needle-stem"></div>
         </div>
         <div class="gauge-number" style="left:48.0%">48</div>
@@ -539,7 +543,7 @@
       <line x1="4" y1="77.5" x2="654" y2="77.5" stroke="var(--muted)" stroke-width="0.6" stroke-dasharray="3,3" opacity="0.5"/><text x="659" y="84.7" class="chart-label" fill="var(--muted)" font-size="7.5">48</text>
       <line x1="4" y1="70.0" x2="654" y2="70.0" stroke="var(--muted)" stroke-width="0.6" stroke-dasharray="3,3" opacity="0.5"/><text x="659" y="75.7" class="chart-label" fill="var(--muted)" font-size="7.5">54</text>
       <line x1="4" y1="63.7" x2="654" y2="63.7" stroke="var(--muted)" stroke-width="0.6" stroke-dasharray="3,3" opacity="0.5"/><text x="659" y="66.7" class="chart-label" fill="var(--muted)" font-size="7.5">59</text>
-      <path d="M 4.0,64.9 L 16.3,66.9 L 28.5,74.4 L 40.8,76.9 L 53.1,75.6 L 65.3,82.6 L 77.6,76.3 L 89.8,75.0 L 102.1,75.0 L 114.4,75.0 L 126.6,78.8 L 138.9,78.8 L 151.2,77.5 L 163.4,75.0 L 175.7,64.9 L 188.0,72.5 L 200.2,83.8 L 212.5,76.3 L 224.8,86.3 L 237.0,85.1 L 249.3,85.1 L 261.5,87.6 L 273.8,90.1 L 286.1,88.9 L 298.3,90.1 L 310.6,88.9 L 322.9,92.6 L 335.1,91.4 L 347.4,85.1 L 359.7,88.9 L 371.9,87.6 L 384.2,80.0 L 396.5,85.1 L 408.7,85.1 L 421.0,90.1 L 433.2,98.9 L 445.5,97.7 L 457.8,96.4 L 470.0,92.6 L 482.3,92.6 L 494.6,91.4 L 506.8,91.4 L 519.1,93.9 L 531.4,93.9 L 543.6,92.6 L 555.9,92.6 L 568.2,95.2 L 580.4,97.7 L 592.7,101.5 L 604.9,102.7 L 617.2,95.2 L 629.5,106.5 L 641.7,105.2 L 654.0,100.2" fill="none" stroke="var(--price-line)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></path>
+      <path d="M 4.0,64.9 L 16.0,66.9 L 28.1,74.4 L 40.1,76.9 L 52.1,75.6 L 64.2,82.6 L 76.2,76.3 L 88.3,75.0 L 100.3,75.0 L 112.3,75.0 L 124.4,78.8 L 136.4,78.8 L 148.4,77.5 L 160.5,75.0 L 172.5,64.9 L 184.6,72.5 L 196.6,83.8 L 208.6,76.3 L 220.7,86.3 L 232.7,85.1 L 244.7,85.1 L 256.8,87.6 L 268.8,90.1 L 280.9,88.9 L 292.9,90.1 L 304.9,88.9 L 317.0,92.6 L 329.0,91.4 L 341.0,85.1 L 353.1,88.9 L 365.1,87.6 L 377.1,80.0 L 389.2,85.1 L 401.2,85.1 L 413.3,90.1 L 425.3,98.9 L 437.3,97.7 L 449.4,96.4 L 461.4,92.6 L 473.4,92.6 L 485.5,91.4 L 497.5,91.4 L 509.6,93.9 L 521.6,93.9 L 533.6,92.6 L 545.7,92.6 L 557.7,95.2 L 569.7,97.7 L 581.8,101.5 L 593.8,102.7 L 605.9,95.2 L 617.9,106.5 L 629.9,105.2 L 642.0,100.2 L 654.0,95.2" fill="none" stroke="var(--price-line)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></path>
       <text x="4" y="154" class="chart-label">2026-08-31</text>
       <text x="654" y="154" class="chart-label" text-anchor="end">2026-11-19</text>
     </svg>
@@ -556,7 +560,7 @@
       </div>
       <div class="meta-block">
         <div class="meta-label">Olumsuz Sürükleyiciler</div>
-        <ul><li>BIST100 Teknik</li><li>TR 2Y Tahvil</li><li>Haber Akışı</li></ul>
+        <ul><li>BIST100 Teknik</li><li>TR 2Y Tahvil</li><li>DXY</li></ul>
       </div>
       <div class="meta-block">
         <div class="meta-label">Kalibrasyon Kapsamı</div>
@@ -631,13 +635,13 @@
         <span class="badge badge-measured">İLİŞKİ ÖLÇÜLDÜ</span>
       </div>
       <span class="card-weight">ağırlık %18.5</span>
-      <div class="card-value">22.23<span class="card-unit"> </span></div>
+      <div class="card-value">22.11<span class="card-unit"> </span></div>
       <div class="card-bar-track">
         <div class="card-bar-fill" style="width:39%; background:var(--negative)"></div>
       </div>
       <div class="card-score">7/18 <span style="font-size:11px;font-weight:600;color:var(--positive);">▲+1</span></div>
       <div class="card-comment">Küresel volatilite</div>
-      <div class="card-context">1y içinde yüksek (z=+1.19, %87 dilim) | duyarlılık -0.4 -&gt; uygunluk -0.44</div>
+      <div class="card-context">1y içinde yüksek (z=+1.16, %87 dilim) | duyarlılık -0.4 -&gt; uygunluk -0.43</div>
       
     </div>
     
@@ -648,7 +652,7 @@
         <span class="badge badge-estimated">İLİŞKİ TAHMİNİ</span>
       </div>
       <span class="card-weight">ağırlık %4.1</span>
-      <div class="card-value">90.13<span class="card-unit"> $</span></div>
+      <div class="card-value">90.04<span class="card-unit"> $</span></div>
       <div class="card-bar-track">
         <div class="card-bar-fill" style="width:50%; background:var(--muted)"></div>
       </div>
@@ -682,13 +686,13 @@
         <span class="badge badge-estimated">İLİŞKİ TAHMİNİ</span>
       </div>
       <span class="card-weight">ağırlık %18.6</span>
-      <div class="card-value">11,450.92<span class="card-unit"> </span></div>
+      <div class="card-value">11,467.81<span class="card-unit"> </span></div>
       <div class="card-bar-track">
         <div class="card-bar-fill" style="width:11%; background:var(--negative)"></div>
       </div>
       <div class="card-score">2/19 <span style="font-size:11px;color:var(--muted);">±0</span></div>
       <div class="card-comment">MA50:False | MA200:False | Golden:False | Trend20:-0.1%</div>
-      <div class="card-context">[Fiyat Seviyesi] 1y icinde düşük (z=-1.40, %16 dilim)  |  [Puan Gerekcesi] MA50-, MA200-, Golden-, Momentum~ -&gt; uygunluk -1.60</div>
+      <div class="card-context">[Fiyat Seviyesi] 1y icinde düşük (z=-1.39, %16 dilim)  |  [Puan Gerekcesi] MA50-, MA200-, Golden-, Momentum~ -&gt; uygunluk -1.60</div>
       
     </div>
     
@@ -699,13 +703,13 @@
         <span class="badge badge-estimated">İLİŞKİ TAHMİNİ</span>
       </div>
       <span class="card-weight">ağırlık %2.8</span>
-      <div class="card-value">16,160.27<span class="card-unit"> </span></div>
+      <div class="card-value">16,192.56<span class="card-unit"> </span></div>
       <div class="card-bar-track">
         <div class="card-bar-fill" style="width:33%; background:var(--negative)"></div>
       </div>
       <div class="card-score">1/3 <span style="font-size:11px;font-weight:600;color:var(--positive);">▲+1</span></div>
       <div class="card-comment">MA50:True | MA200:False | Golden:False | Trend20:+0.7%</div>
-      <div class="card-context">[Fiyat Seviyesi] 1y icinde normal (z=-0.53, %32 dilim)  |  [Puan Gerekcesi] MA50+, MA200-, Golden-, Momentum~ -&gt; uygunluk -0.30</div>
+      <div class="card-context">[Fiyat Seviyesi] 1y icinde normal (z=-0.51, %34 dilim)  |  [Puan Gerekcesi] MA50+, MA200-, Golden-, Momentum~ -&gt; uygunluk -0.30</div>
       
     </div>
     
@@ -716,13 +720,13 @@
         <span class="badge badge-estimated">İLİŞKİ TAHMİNİ</span>
       </div>
       <span class="card-weight">ağırlık %1.8</span>
-      <div class="card-value">13,600.85<span class="card-unit"> </span></div>
+      <div class="card-value">13,620.56<span class="card-unit"> </span></div>
       <div class="card-bar-track">
         <div class="card-bar-fill" style="width:2%; background:var(--negative)"></div>
       </div>
       <div class="card-score">0/2 <span style="font-size:11px;color:var(--muted);">±0</span></div>
       <div class="card-comment">MA50:False | MA200:False | Golden:False | Trend20:-1.4%</div>
-      <div class="card-context">[Fiyat Seviyesi] 1y icinde düşük (z=-1.61, %4 dilim)  |  [Puan Gerekcesi] MA50-, MA200-, Golden-, Momentum- -&gt; uygunluk -1.85</div>
+      <div class="card-context">[Fiyat Seviyesi] 1y icinde düşük (z=-1.60, %4 dilim)  |  [Puan Gerekcesi] MA50-, MA200-, Golden-, Momentum- -&gt; uygunluk -1.85</div>
       
     </div>
     
@@ -733,20 +737,20 @@
         <span class="badge badge-estimated">İLİŞKİ TAHMİNİ</span>
       </div>
       <span class="card-weight">ağırlık %18.6</span>
-      <div class="card-value">47.52<span class="card-unit"> </span></div>
+      <div class="card-value">33.21<span class="card-unit"> </span></div>
       <div class="card-bar-track">
-        <div class="card-bar-fill" style="width:32%; background:var(--negative)"></div>
+        <div class="card-bar-fill" style="width:53%; background:var(--muted)"></div>
       </div>
-      <div class="card-score">6/19 <span style="font-size:11px;font-weight:600;color:var(--positive);">▲+1</span></div>
-      <div class="card-comment">15 haber (dağınık risk) | baskın haber: &quot;Crimea bridge has been attacked again, says Russian-insta...&quot; [Geopolitics] | ağırlıklı risk: 47.5 | LLM ile zenginlestirildi</div>
-      <div class="card-context">İkinci bağımsız hikaye: &quot;Fed policymakers focused on inflation risks in Octob...&quot; [Macro]  |  referans 34.5 (kendi kendine kalibre edildi (medyan, son 16 gozlem), 16 gozlem)</div>
+      <div class="card-score">10/19 <span style="font-size:11px;font-weight:600;color:var(--positive);">▲+5</span></div>
+      <div class="card-comment">15 haber (dağınık risk) | baskın haber: &quot;Fed policymakers focused on inflation risks in October, w...&quot; [Macro] | ağırlıklı risk: 33.2 | LLM ile zenginlestirildi</div>
+      <div class="card-context">İkinci bağımsız hikaye: &quot;Kerch attack: Bridge connecting Russia to occupied C...&quot; [Geopolitics]  |  referans 36.0 (kendi kendine kalibre edildi (medyan, son 17 gozlem), 17 gozlem)</div>
       
     </div>
     
     </div>
 
     <div class="footer">
-      <span>19 Kasım 2026, 16:14</span>
+      <span>19 Kasım 2026, 16:26</span>
       <span>Bu bir öngörü değil, mevcut koşulların tarifidir</span>
     </div>
 

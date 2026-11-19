@@ -8,24 +8,26 @@
 <style>
   :root {
     color-scheme: light dark;
-    --bg: #FBF7EE;
+    --bg: #FAF9F5;
     --panel: #FFFFFF;
-    --panel-alt: #F3EDDD;
-    --hairline: #E4D8B8;
-    --ink: #2B2417;
-    --muted: #7A7160;
-    --brass: #9C7A2E;
-    --brass-dim: #B89552;
-    --positive: #2E7D4F;
-    --negative: #B23A2E;
-    --neutral: #6B7280;
-    --caution: #B5691A;
+    --panel-alt: #F1EEE4;
+    --hairline: #ECE8DC;
+    --ink: #1F2430;
+    --muted: #6B6F78;
+    --brass: #2F6F9F;
+    --brass-dim: #9DB8D0;
+    --positive: #5BA378;
+    --negative: #C0392B;
+    --neutral: #8B96A8;
+    --caution: #D9791F;
     --gauge-fill-opacity: 0.90;
     --card-bar-opacity: 0.85;
     --card-comment-opacity: 0.90;
-    --breach-panel-rgba: rgba(178, 58, 46, 0.12);
+    --breach-panel-rgba: rgba(192, 57, 43, 0.12);
     --chart-area-opacity-top: 0.32;
-    --price-line: #2B2B2B;
+    --price-line: #5B6B82;
+    --tb-up: #2E7D4F;
+    --tb-down: #B23A2E;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -42,6 +44,8 @@
     --neutral: #8B96A8;
     --caution: #D9791F;
     --price-line: #C9CED8;
+    --tb-up: #5BA378;
+    --tb-down: #D1584A;
     --gauge-fill-opacity: 0.55;
     --card-bar-opacity: 0.7;
     --card-comment-opacity: 0.85;
@@ -504,7 +508,7 @@
           <div class="tech-behavior-body">
             Trend: <b>Nötr</b>
             &nbsp;·&nbsp; Momentum: <b>Zayıf</b>
-            &nbsp;·&nbsp; Faz: <b>Dağıtma</b>
+            &nbsp;·&nbsp; Faz: <b style="color:var(--tb-down);">Dağıtma</b>
           </div>
         </div>
         
@@ -516,8 +520,8 @@
         <div class="gauge-zone" style="width:7.90%; background:var(--caution); "><span class="gauge-zone-label">TEMKİNLİ</span></div>
         <div class="gauge-zone" style="width:4.00%; background:var(--neutral); "><span class="gauge-zone-label">NÖTR</span></div>
         <div class="gauge-zone" style="width:39.60%; background:var(--positive); border-radius:0 5px 5px 0;"><span class="gauge-zone-label">DESTEKLEYİCİ</span></div></div>
-        <div class="needle" style="left:24.8%">
-          <div class="needle-value">24.8</div>
+        <div class="needle" style="left:29.7%">
+          <div class="needle-value">29.7</div>
           <div class="needle-stem"></div>
         </div>
         <div class="gauge-number" style="left:48.5%">48</div>
@@ -539,7 +543,7 @@
       <line x1="4" y1="76.9" x2="654" y2="76.9" stroke="var(--muted)" stroke-width="0.6" stroke-dasharray="3,3" opacity="0.5"/><text x="659" y="82.9" class="chart-label" fill="var(--muted)" font-size="7.5">48</text>
       <line x1="4" y1="66.9" x2="654" y2="66.9" stroke="var(--muted)" stroke-width="0.6" stroke-dasharray="3,3" opacity="0.5"/><text x="659" y="73.9" class="chart-label" fill="var(--muted)" font-size="7.5">56</text>
       <line x1="4" y1="61.9" x2="654" y2="61.9" stroke="var(--muted)" stroke-width="0.6" stroke-dasharray="3,3" opacity="0.5"/><text x="659" y="64.9" class="chart-label" fill="var(--muted)" font-size="7.5">60</text>
-      <path d="M 4.0,57.4 L 17.0,53.6 L 30.0,71.2 L 43.0,73.7 L 56.0,62.4 L 69.0,64.9 L 82.0,63.7 L 95.0,72.5 L 108.0,76.3 L 121.0,76.3 L 134.0,71.2 L 147.0,81.3 L 160.0,77.5 L 173.0,66.9 L 186.0,75.6 L 199.0,76.9 L 212.0,78.1 L 225.0,61.9 L 238.0,60.6 L 251.0,64.4 L 264.0,63.1 L 277.0,63.1 L 290.0,61.9 L 303.0,65.6 L 316.0,65.6 L 329.0,68.1 L 342.0,69.4 L 355.0,73.1 L 368.0,71.9 L 381.0,74.4 L 394.0,74.4 L 407.0,66.9 L 420.0,69.4 L 433.0,64.4 L 446.0,73.1 L 459.0,66.9 L 472.0,94.3 L 485.0,98.1 L 498.0,98.1 L 511.0,83.1 L 524.0,88.1 L 537.0,86.9 L 550.0,88.1 L 563.0,86.9 L 576.0,95.6 L 589.0,95.6 L 602.0,95.6 L 615.0,93.1 L 628.0,110.6 L 641.0,108.1 L 654.0,106.8" fill="none" stroke="var(--price-line)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></path>
+      <path d="M 4.0,57.4 L 16.7,53.6 L 29.5,71.2 L 42.2,73.7 L 55.0,62.4 L 67.7,64.9 L 80.5,63.7 L 93.2,72.5 L 106.0,76.3 L 118.7,76.3 L 131.5,71.2 L 144.2,81.3 L 156.9,77.5 L 169.7,66.9 L 182.4,75.6 L 195.2,76.9 L 207.9,78.1 L 220.7,61.9 L 233.4,60.6 L 246.2,64.4 L 258.9,63.1 L 271.6,63.1 L 284.4,61.9 L 297.1,65.6 L 309.9,65.6 L 322.6,68.1 L 335.4,69.4 L 348.1,73.1 L 360.9,71.9 L 373.6,74.4 L 386.4,74.4 L 399.1,66.9 L 411.8,69.4 L 424.6,64.4 L 437.3,73.1 L 450.1,66.9 L 462.8,94.3 L 475.6,98.1 L 488.3,98.1 L 501.1,83.1 L 513.8,88.1 L 526.5,86.9 L 539.3,88.1 L 552.0,86.9 L 564.8,95.6 L 577.5,95.6 L 590.3,95.6 L 603.0,93.1 L 615.8,110.6 L 628.5,108.1 L 641.3,106.8 L 654.0,100.6" fill="none" stroke="var(--price-line)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></path>
       <text x="4" y="154" class="chart-label">2026-08-31</text>
       <text x="654" y="154" class="chart-label" text-anchor="end">2026-11-19</text>
     </svg>
@@ -552,7 +556,7 @@
     <div class="meta-row">
       <div class="meta-block">
         <div class="meta-label">Olumlu Sürükleyiciler</div>
-        <ul><li class='none'>—</li></ul>
+        <ul><li>Haber Akışı</li></ul>
       </div>
       <div class="meta-block">
         <div class="meta-label">Olumsuz Sürükleyiciler</div>
@@ -580,13 +584,13 @@
         <span class="badge badge-estimated">İLİŞKİ TAHMİNİ</span>
       </div>
       <span class="card-weight">ağırlık %15.9</span>
-      <div class="card-value">22.23<span class="card-unit"> </span></div>
+      <div class="card-value">22.11<span class="card-unit"> </span></div>
       <div class="card-bar-track">
         <div class="card-bar-fill" style="width:19%; background:var(--negative)"></div>
       </div>
       <div class="card-score">3/16 <span style="font-size:11px;font-weight:600;color:var(--positive);">▲+2</span></div>
       <div class="card-comment">Küresel volatilite</div>
-      <div class="card-context">1y içinde yüksek (z=+1.19, %87 dilim) | duyarlılık -1.0 -&gt; uygunluk -1.19</div>
+      <div class="card-context">1y içinde yüksek (z=+1.16, %87 dilim) | duyarlılık -1.0 -&gt; uygunluk -1.16</div>
       
     </div>
     
@@ -665,7 +669,7 @@
         <span class="badge badge-estimated">İLİŞKİ TAHMİNİ</span>
       </div>
       <span class="card-weight">ağırlık %4.6</span>
-      <div class="card-value">90.13<span class="card-unit"> $</span></div>
+      <div class="card-value">90.04<span class="card-unit"> $</span></div>
       <div class="card-bar-track">
         <div class="card-bar-fill" style="width:40%; background:var(--muted)"></div>
       </div>
@@ -699,20 +703,20 @@
         <span class="badge badge-estimated">İLİŞKİ TAHMİNİ</span>
       </div>
       <span class="card-weight">ağırlık %20.5</span>
-      <div class="card-value">35.17<span class="card-unit"> </span></div>
+      <div class="card-value">21.29<span class="card-unit"> </span></div>
       <div class="card-bar-track">
-        <div class="card-bar-fill" style="width:38%; background:var(--negative)"></div>
+        <div class="card-bar-fill" style="width:62%; background:var(--positive)"></div>
       </div>
-      <div class="card-score">8/21 <span style="font-size:11px;font-weight:600;color:var(--negative);">▼-1</span></div>
-      <div class="card-comment">15 haber (dağınık risk) | baskın haber: &quot;Oil Prices Edge Higher as Traders Weigh Middle East Shipp...&quot; [Geopolitics] | ağırlıklı risk: 35.2 | LLM ile zenginlestirildi</div>
-      <div class="card-context">İkinci bağımsız hikaye: &quot;Fed officials expect more rate hikes, worry about AI...&quot; [Macro]  |  referans 27.5 (kendi kendine kalibre edildi (medyan, son 16 gozlem), 16 gozlem)</div>
+      <div class="card-score">13/21 <span style="font-size:11px;font-weight:600;color:var(--positive);">▲+4</span></div>
+      <div class="card-comment">15 haber (dağınık risk) | baskın haber: &quot;Fed officials expect more rate hikes, worry about AI impa...&quot; [Macro] | ağırlıklı risk: 21.3 | LLM ile zenginlestirildi</div>
+      <div class="card-context">İkinci bağımsız hikaye: &quot;US tightens Iran blockade with curbs on oil transfer...&quot; [Geopolitics]  |  referans 27.7 (kendi kendine kalibre edildi (medyan, son 17 gozlem), 17 gozlem)</div>
       
     </div>
     
     </div>
 
     <div class="footer">
-      <span>19 Kasım 2026, 16:15</span>
+      <span>19 Kasım 2026, 16:26</span>
       <span>Bu bir öngörü değil, mevcut koşulların tarifidir</span>
     </div>
 
