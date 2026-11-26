@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Gümüş — Piyasa Koşulları</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="dark light">
+<script>try{if(localStorage.getItem('ip-theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #0F1B2D;
+    --panel: #16243B;
+    --panel-alt: #1C2E4A;
+    --hairline: #2A3B57;
+    --ink: #E8E2D0;
+    --muted: #8B96A8;
+    --brass: #C89B3C;
+    --brass-dim: #8A6F35;
+    --positive: #5BA378;
+    --negative: #C0392B;
+    --neutral: #8B96A8;
+    --caution: #D9791F;
+    --price-line: #C9CED8;
+    --tb-up: #5BA378;
+    --tb-down: #D1584A;
+    --gauge-fill-opacity: 0.55;
+    --card-bar-opacity: 0.7;
+    --card-comment-opacity: 0.85;
+    --breach-panel-rgba: rgba(181, 83, 60, 0.12);
+    --chart-area-opacity-top: 0.28;
+    --disclaimer-opacity: 0.75;
+  }
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #E6E3D9;
+    --panel: #FFFFFF;
+    --panel-alt: #F1EEE4;
+    --hairline: #ECE8DC;
+    --ink: #000000;
+    --muted: #000000;
+    --brass: #2F6F9F;
+    --brass-dim: #9DB8D0;
+    --positive: #5BA378;
+    --negative: #C0392B;
+    --neutral: #8B96A8;
+    --caution: #D9791F;
+    --gauge-fill-opacity: 0.90;
+    --card-bar-opacity: 0.85;
+    --card-comment-opacity: 1;
+    --breach-panel-rgba: rgba(192, 57, 43, 0.12);
+    --chart-area-opacity-top: 0.32;
+    --price-line: #000000;
+    --tb-up: #2E7D4F;
+    --tb-down: #B23A2E;
+    --disclaimer-opacity: 1;
+  }
+  
+  .theme-toggle {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+    padding: 6px 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--ink);
+    background: var(--panel);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    cursor: pointer;
+  }
+
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    padding: 40px 24px;
+    line-height: 1.5;
+  }
+
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 38px;
+    margin-bottom: 4px;
+  }
+
+  .level-badge {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    padding: 4px 12px;
+    border-radius: 3px;
+    margin-top: 10px;
+    margin-bottom: 32px;
+    color: var(--bg);
+    background: var(--negative);
+    font-weight: 600;
+  }
+
+  .description {
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 12px;
+    max-width: 520px;
+  }
+
+  /* --- Gauge (imza oge) --- */
+  .gauge {
+    margin: 0 0 32px 0;
+    padding: 28px 24px 44px 24px;
+    background: var(--panel);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+  }
+
+  .gauge-track {
+    position: relative;
+    height: 10px;
+    background: var(--panel-alt);
+    border-radius: 5px;
+    margin: 54px 12px 26px 12px;
+  }
+
+  .gauge-zones {
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 100%;
+    display: flex;
+    overflow: visible;
+    border-radius: 5px;
+  }
+
+  .gauge-zone {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: visible;
+  }
+
+  .gauge-zone-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #FFFFFF;
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+  }
+
+  /* Esik rakamlari - TRACK'IN ALTINDA, sadece DUZ RAKAM (kullanicinin
+     talebi: kelime/cizgi YOK). Kisa oldugu icin (en fazla 2 hane) dar
+     bolgelerde bile CAKISMA riski yok - eski coklu-satir kelime-etiketi
+     tasarimi GEREKSIZ hale geldi, kaldirildi. */
+  .gauge-number {
+    position: absolute;
+    top: 100%;
+    transform: translate(-50%, 6px);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* Ibre - TRACK'IN USTUNDE sabit bant. Esik etiketleriyle AYNI yatay
+     pozisyona gelse bile farkli bantta oldugu icin ASLA cakismaz. */
+  .needle {
+    position: absolute;
+    bottom: 6px;
+    transform: translateX(-50%);
+  }
+
+  .needle-stem {
+    width: 2px;
+    height: 22px;
+    background: var(--ink);
+    margin: 0 auto;
+  }
+
+  .needle-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 5px;
+    white-space: nowrap;
+  }
+
+  /* --- Kapsam / drivers --- */
+  .meta-row {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .meta-block { flex: 1; min-width: 200px; }
+
+  .meta-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .meta-block ul { list-style: none; font-size: 13px; }
+  .meta-block li { padding: 3px 0; }
+  .meta-block li.none { color: var(--muted); }
+  .meta-block li:before { content: "— "; color: var(--muted); }
+  .meta-block li.none:before { content: ""; }
+
+  .coverage-stat {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--brass);
+  }
+
+  .chart-panel {
+    background: var(--panel);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    padding: 18px 20px 14px 20px;
+    margin-bottom: 32px;
+  }
+
+  .chart-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .tech-behavior-panel {
+    background: transparent;
+    border: 1px dashed var(--hairline);
+    border-radius: 4px;
+    padding: 12px 20px;
+    margin-bottom: 32px;
+  }
+
+  .tech-behavior-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .tech-behavior-disclaimer {
+    text-transform: none;
+    letter-spacing: normal;
+    font-style: italic;
+    opacity: var(--disclaimer-opacity);
+  }
+
+  .tech-behavior-body {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--ink);
+  }
+
+  .price-chart {
+    display: block;
+  }
+
+  .chart-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    fill: var(--muted);
+  }
+
+  .chart-hi, .chart-lo {
+    fill: var(--brass);
+  }
+
+  .breach-panel {
+    background: var(--breach-panel-rgba);
+    border: 1px solid var(--negative);
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin-bottom: 40px;
+  }
+
+  .breach-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--negative);
+    margin-bottom: 6px;
+  }
+
+  .breach-panel ul { list-style: none; font-size: 13px; }
+  .breach-panel li { padding: 2px 0; }
+
+  /* --- Gosterge kartlari --- */
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+    border-top: 1px solid var(--hairline);
+    padding-top: 24px;
+    margin-bottom: 20px;
+  }
+
+  .legend {
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-bottom: 18px;
+    line-height: 2.1;
+  }
+
+  .legend .badge {
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+
+  .legend-text {
+    margin-right: 4px;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    padding: 16px 18px;
+  }
+
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .card-name {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  .card-weight {
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    margin: 2px 0 6px 0;
+  }
+
+  .badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    padding: 2px 7px;
+    border-radius: 2px;
+  }
+
+  .badge-measured {
+    color: var(--bg);
+    background: var(--brass);
+  }
+
+  .badge-estimated {
+    color: var(--muted);
+    border: 1px dashed var(--muted);
+    background: transparent;
+  }
+
+  .card-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  .card-unit {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .card-bar-track {
+    height: 4px;
+    background: var(--panel-alt);
+    border-radius: 2px;
+    margin-bottom: 6px;
+  }
+
+  .card-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    opacity: var(--card-bar-opacity);
+  }
+
+  .card-score {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .card-comment {
+    font-size: 12.5px;
+    color: var(--ink);
+    opacity: var(--card-comment-opacity);
+    margin-bottom: 4px;
+  }
+
+  .card-context {
+    font-size: 11.5px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .hard-rule-flag {
+    margin-top: 8px;
+    font-size: 11.5px;
+    color: var(--negative);
+  }
+
+  .footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--hairline);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .attention-banner {
+    background: var(--brass)22;
+    border: 1px solid var(--brass);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 12px 0 20px 0;
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .attention-banner .label {
+    font-weight: 600;
+    color: var(--brass);
+    margin-right: 6px;
+  }
+  .attention-banner div { margin: 4px 0; }
+</style>
+</head>
+<body>
+  <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Açık/koyu tema">☀ Açık</button>
+  <div class="page">
+
+    <div class="eyebrow">INVESTPILOT · Piyasa Koşulları Okuması · 26 Kasım 2026</div>
+    <h1>Gümüş</h1>
+    <div class="level-badge">RISKLI ORTAM</div>
+    <!-- Aciklama satiri KALICI olarak KALDIRILDI (kullanici talebi) -
+    UC ayri deneme YAPILDI, UCU DE geri alindi:
+      1) sayim-bazli ("2 olumlu, 5 notr, 2 olumsuz")
+      2) agirlikli-katki-bazli (tam cumle, "cok uzun" bulundu)
+      3) "yayilim ozeti" (kac gosterge destekliyor + en buyuk tek katki,
+         KISA tek satir) - kullanici "asagida grafikte zaten gorunuyor,
+         kafa karistirabilir" diyerek GERI ALDI - onceki _build_
+         description() gibi bu SEFER de fonksiyon (compute_breadth_
+         summary) TAMAMEN SILINDI, bkz. TODO.md.
+    BIST100'un temmuz sonundan beri suren yukselisi RISKLI gorunmeye
+    devam etmesi ayrica arastirilacak - bkz. TODO.md. -->
+
+    
+    
+            <div class="chart-panel">
+              <div class="chart-title">12 Aylık Kapanış Fiyatı</div>
+              
+    <svg viewBox="0 0 680 120" width="100%" height="120" preserveAspectRatio="none" class="price-chart">
+      <defs>
+        <linearGradient id="chartAreaGradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" style="stop-color:var(--brass);stop-opacity:var(--chart-area-opacity-top);"/>
+          <stop offset="100%" style="stop-color:var(--brass);stop-opacity:0;"/>
+        </linearGradient>
+      </defs>
+      <path d="M 4.0,83.3 L 6.7,79.2 L 9.4,76.9 L 12.0,77.4 L 14.7,77.5 L 17.4,78.7 L 20.1,76.9 L 22.7,77.7 L 25.4,74.9 L 28.1,74.7 L 30.8,70.6 L 33.5,73.6 L 36.1,71.8 L 38.8,72.0 L 41.5,68.0 L 44.2,69.9 L 46.8,67.3 L 49.5,66.1 L 52.2,63.1 L 54.9,62.5 L 57.5,56.2 L 60.2,63.8 L 62.9,55.2 L 65.6,63.5 L 68.3,63.0 L 70.9,56.6 L 73.6,51.6 L 76.3,55.5 L 79.0,58.3 L 81.6,53.5 L 84.3,46.9 L 87.0,45.5 L 89.7,39.8 L 92.4,38.6 L 95.0,42.9 L 97.7,35.9 L 100.4,38.2 L 103.1,33.9 L 105.7,28.2 L 108.4,12.0 L 111.1,23.0 L 113.8,14.3 L 116.4,13.2 L 119.1,54.2 L 121.8,55.9 L 124.5,48.7 L 127.2,47.4 L 129.8,56.2 L 132.5,56.0 L 135.2,49.8 L 137.9,52.0 L 140.5,47.9 L 143.2,57.3 L 145.9,54.7 L 148.6,59.7 L 151.3,55.1 L 153.9,55.0 L 156.6,49.6 L 159.3,44.7 L 162.0,43.7 L 164.6,39.7 L 167.3,44.2 L 170.0,37.7 L 172.7,42.7 L 175.3,48.9 L 178.0,49.2 L 180.7,50.3 L 183.4,47.8 L 186.1,47.6 L 188.7,41.8 L 191.4,46.4 L 194.1,46.9 L 196.8,51.2 L 199.4,51.9 L 202.1,52.7 L 204.8,55.4 L 207.5,62.6 L 210.2,64.4 L 212.8,64.8 L 215.5,64.5 L 218.2,61.0 L 220.9,66.3 L 223.5,64.2 L 226.2,63.3 L 228.9,58.3 L 231.6,56.9 L 234.2,60.5 L 236.9,60.6 L 239.6,61.6 L 242.3,57.7 L 245.0,56.5 L 247.6,56.4 L 250.3,57.3 L 253.0,52.9 L 255.7,52.8 L 258.3,53.8 L 261.0,50.2 L 263.7,52.3 L 266.4,56.3 L 269.1,54.6 L 271.7,57.4 L 274.4,56.4 L 277.1,57.9 L 279.8,60.0 L 282.4,61.9 L 285.1,59.6 L 287.8,56.9 L 290.5,60.2 L 293.1,60.1 L 295.8,55.9 L 298.5,52.6 L 301.2,51.8 L 303.9,45.9 L 306.5,46.3 L 309.2,42.0 L 311.9,46.6 L 314.6,55.5 L 317.2,55.6 L 319.9,58.1 L 322.6,57.0 L 325.3,56.3 L 328.0,56.9 L 330.6,56.4 L 333.3,58.4 L 336.0,57.2 L 338.7,57.2 L 341.3,57.9 L 344.0,57.6 L 346.7,59.7 L 349.4,59.3 L 352.0,64.9 L 354.7,65.5 L 357.4,69.3 L 360.1,69.9 L 362.8,70.7 L 365.4,66.1 L 368.1,63.6 L 370.8,63.8 L 373.5,62.9 L 376.1,68.0 L 378.8,68.8 L 381.5,72.8 L 384.2,77.4 L 386.9,77.0 L 389.5,76.0 L 392.2,77.2 L 394.9,75.7 L 397.6,75.0 L 400.2,74.4 L 402.9,72.9 L 405.6,74.1 L 408.3,77.2 L 410.9,74.7 L 413.6,75.4 L 416.3,77.8 L 419.0,76.5 L 421.7,78.4 L 424.3,79.8 L 427.0,79.7 L 429.7,78.8 L 432.4,76.5 L 435.0,75.1 L 437.7,77.7 L 440.4,76.7 L 443.1,76.9 L 445.8,78.2 L 448.4,77.6 L 451.1,76.5 L 453.8,77.9 L 456.5,77.8 L 459.1,75.1 L 461.8,72.7 L 464.5,73.5 L 467.2,71.3 L 469.8,69.3 L 472.5,69.7 L 475.2,68.8 L 477.9,69.5 L 480.6,69.4 L 483.2,68.1 L 485.9,70.6 L 488.6,68.6 L 491.3,65.9 L 493.9,64.3 L 496.6,65.3 L 499.3,65.2 L 502.0,66.0 L 504.7,64.3 L 507.3,67.1 L 510.0,68.0 L 512.7,69.8 L 515.4,69.7 L 518.0,67.1 L 520.7,68.2 L 523.4,67.9 L 526.1,66.0 L 528.7,70.2 L 531.4,69.9 L 534.1,71.1 L 536.8,71.4 L 539.5,70.2 L 542.1,68.9 L 544.8,67.6 L 547.5,68.5 L 550.2,68.3 L 552.8,70.1 L 555.5,71.2 L 558.2,70.3 L 560.9,73.7 L 563.6,74.4 L 566.2,75.0 L 568.9,74.3 L 571.6,75.2 L 574.3,74.1 L 576.9,73.8 L 579.6,75.3 L 582.3,76.2 L 585.0,74.4 L 587.6,75.0 L 590.3,76.1 L 593.0,80.2 L 595.7,78.8 L 598.4,78.6 L 601.0,78.6 L 603.7,77.8 L 606.4,78.1 L 609.1,81.1 L 611.7,82.3 L 614.4,81.9 L 617.1,81.7 L 619.8,82.6 L 622.5,84.1 L 625.1,87.6 L 627.8,85.8 L 630.5,87.1 L 633.2,84.2 L 635.8,84.0 L 638.5,84.5 L 641.2,83.7 L 643.9,85.3 L 646.5,84.4 L 649.2,86.6 L 651.9,87.7 L 654.6,90.3 L 657.3,89.7 L 659.9,92.3 L 662.6,93.1 L 665.3,96.9 L 668.0,94.5 L 670.6,97.2 L 673.3,98.0 L 676.0,95.9 L 676.0,98.0 L 4.0,98.0 Z" fill="url(#chartAreaGradient)" stroke="none"></path>
+      <path d="M 4.0,83.3 L 6.7,79.2 L 9.4,76.9 L 12.0,77.4 L 14.7,77.5 L 17.4,78.7 L 20.1,76.9 L 22.7,77.7 L 25.4,74.9 L 28.1,74.7 L 30.8,70.6 L 33.5,73.6 L 36.1,71.8 L 38.8,72.0 L 41.5,68.0 L 44.2,69.9 L 46.8,67.3 L 49.5,66.1 L 52.2,63.1 L 54.9,62.5 L 57.5,56.2 L 60.2,63.8 L 62.9,55.2 L 65.6,63.5 L 68.3,63.0 L 70.9,56.6 L 73.6,51.6 L 76.3,55.5 L 79.0,58.3 L 81.6,53.5 L 84.3,46.9 L 87.0,45.5 L 89.7,39.8 L 92.4,38.6 L 95.0,42.9 L 97.7,35.9 L 100.4,38.2 L 103.1,33.9 L 105.7,28.2 L 108.4,12.0 L 111.1,23.0 L 113.8,14.3 L 116.4,13.2 L 119.1,54.2 L 121.8,55.9 L 124.5,48.7 L 127.2,47.4 L 129.8,56.2 L 132.5,56.0 L 135.2,49.8 L 137.9,52.0 L 140.5,47.9 L 143.2,57.3 L 145.9,54.7 L 148.6,59.7 L 151.3,55.1 L 153.9,55.0 L 156.6,49.6 L 159.3,44.7 L 162.0,43.7 L 164.6,39.7 L 167.3,44.2 L 170.0,37.7 L 172.7,42.7 L 175.3,48.9 L 178.0,49.2 L 180.7,50.3 L 183.4,47.8 L 186.1,47.6 L 188.7,41.8 L 191.4,46.4 L 194.1,46.9 L 196.8,51.2 L 199.4,51.9 L 202.1,52.7 L 204.8,55.4 L 207.5,62.6 L 210.2,64.4 L 212.8,64.8 L 215.5,64.5 L 218.2,61.0 L 220.9,66.3 L 223.5,64.2 L 226.2,63.3 L 228.9,58.3 L 231.6,56.9 L 234.2,60.5 L 236.9,60.6 L 239.6,61.6 L 242.3,57.7 L 245.0,56.5 L 247.6,56.4 L 250.3,57.3 L 253.0,52.9 L 255.7,52.8 L 258.3,53.8 L 261.0,50.2 L 263.7,52.3 L 266.4,56.3 L 269.1,54.6 L 271.7,57.4 L 274.4,56.4 L 277.1,57.9 L 279.8,60.0 L 282.4,61.9 L 285.1,59.6 L 287.8,56.9 L 290.5,60.2 L 293.1,60.1 L 295.8,55.9 L 298.5,52.6 L 301.2,51.8 L 303.9,45.9 L 306.5,46.3 L 309.2,42.0 L 311.9,46.6 L 314.6,55.5 L 317.2,55.6 L 319.9,58.1 L 322.6,57.0 L 325.3,56.3 L 328.0,56.9 L 330.6,56.4 L 333.3,58.4 L 336.0,57.2 L 338.7,57.2 L 341.3,57.9 L 344.0,57.6 L 346.7,59.7 L 349.4,59.3 L 352.0,64.9 L 354.7,65.5 L 357.4,69.3 L 360.1,69.9 L 362.8,70.7 L 365.4,66.1 L 368.1,63.6 L 370.8,63.8 L 373.5,62.9 L 376.1,68.0 L 378.8,68.8 L 381.5,72.8 L 384.2,77.4 L 386.9,77.0 L 389.5,76.0 L 392.2,77.2 L 394.9,75.7 L 397.6,75.0 L 400.2,74.4 L 402.9,72.9 L 405.6,74.1 L 408.3,77.2 L 410.9,74.7 L 413.6,75.4 L 416.3,77.8 L 419.0,76.5 L 421.7,78.4 L 424.3,79.8 L 427.0,79.7 L 429.7,78.8 L 432.4,76.5 L 435.0,75.1 L 437.7,77.7 L 440.4,76.7 L 443.1,76.9 L 445.8,78.2 L 448.4,77.6 L 451.1,76.5 L 453.8,77.9 L 456.5,77.8 L 459.1,75.1 L 461.8,72.7 L 464.5,73.5 L 467.2,71.3 L 469.8,69.3 L 472.5,69.7 L 475.2,68.8 L 477.9,69.5 L 480.6,69.4 L 483.2,68.1 L 485.9,70.6 L 488.6,68.6 L 491.3,65.9 L 493.9,64.3 L 496.6,65.3 L 499.3,65.2 L 502.0,66.0 L 504.7,64.3 L 507.3,67.1 L 510.0,68.0 L 512.7,69.8 L 515.4,69.7 L 518.0,67.1 L 520.7,68.2 L 523.4,67.9 L 526.1,66.0 L 528.7,70.2 L 531.4,69.9 L 534.1,71.1 L 536.8,71.4 L 539.5,70.2 L 542.1,68.9 L 544.8,67.6 L 547.5,68.5 L 550.2,68.3 L 552.8,70.1 L 555.5,71.2 L 558.2,70.3 L 560.9,73.7 L 563.6,74.4 L 566.2,75.0 L 568.9,74.3 L 571.6,75.2 L 574.3,74.1 L 576.9,73.8 L 579.6,75.3 L 582.3,76.2 L 585.0,74.4 L 587.6,75.0 L 590.3,76.1 L 593.0,80.2 L 595.7,78.8 L 598.4,78.6 L 601.0,78.6 L 603.7,77.8 L 606.4,78.1 L 609.1,81.1 L 611.7,82.3 L 614.4,81.9 L 617.1,81.7 L 619.8,82.6 L 622.5,84.1 L 625.1,87.6 L 627.8,85.8 L 630.5,87.1 L 633.2,84.2 L 635.8,84.0 L 638.5,84.5 L 641.2,83.7 L 643.9,85.3 L 646.5,84.4 L 649.2,86.6 L 651.9,87.7 L 654.6,90.3 L 657.3,89.7 L 659.9,92.3 L 662.6,93.1 L 665.3,96.9 L 668.0,94.5 L 670.6,97.2 L 673.3,98.0 L 676.0,95.9" fill="none" stroke="var(--brass)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></path>
+      <text x="4" y="114" class="chart-label">2025-11</text>
+      <text x="676" y="114" class="chart-label" text-anchor="end">2026-11</text>
+      <text x="676" y="20" class="chart-label chart-hi" text-anchor="end">115</text>
+      <text x="676" y="100" class="chart-label chart-lo" text-anchor="end">40</text>
+    </svg>
+    
+            </div>
+            
+    
+        <div class="tech-behavior-panel">
+          <div class="tech-behavior-title">Teknik Davranış Notu <span class="tech-behavior-disclaimer">(fiyat &amp; hacim bazlı — Ortam skorunu etkilemez)</span></div>
+          <div class="tech-behavior-body">
+            Trend: <b style="color:var(--tb-down);">Aşağı</b>
+            &nbsp;·&nbsp; Momentum: <b style="color:var(--tb-down);">Güçlü</b>
+            &nbsp;·&nbsp; Faz: <b style="color:var(--tb-down);">Dağıtma</b>
+          </div>
+        </div>
+        
+    
+    <div class="gauge">
+      <div class="chart-title">Anlık Skor</div>
+      <div class="gauge-track">
+        <div class="gauge-zones"><div class="gauge-zone" style="width:42.60%; background:var(--negative); border-radius:5px 0 0 5px;"><span class="gauge-zone-label">RİSKLİ</span></div>
+        <div class="gauge-zone" style="width:9.90%; background:var(--caution); "><span class="gauge-zone-label">TEMKİNLİ</span></div>
+        <div class="gauge-zone" style="width:8.90%; background:var(--neutral); "><span class="gauge-zone-label">NÖTR</span></div>
+        <div class="gauge-zone" style="width:38.60%; background:var(--positive); border-radius:0 5px 5px 0;"><span class="gauge-zone-label">DESTEKLEYİCİ</span></div></div>
+        <div class="needle" style="left:20.8%">
+          <div class="needle-value">20.8</div>
+          <div class="needle-stem"></div>
+        </div>
+        <div class="gauge-number" style="left:42.6%">43</div>
+        <div class="gauge-number" style="left:52.5%">52</div>
+        <div class="gauge-number" style="left:61.4%">61</div>
+      </div>
+    </div>
+    
+
+    
+        <div class="chart-panel">
+          <div class="chart-title">Zaman İçinde Skor Hareketi</div>
+          
+    <svg viewBox="0 0 680 160" width="100%" height="160" preserveAspectRatio="none" class="score-history-chart">
+      <rect x="4" y="84.3" width="650" height="53.7" fill="var(--negative)" opacity="0.85"/>
+      <rect x="4" y="71.8" width="650" height="12.5" fill="var(--caution)" opacity="0.85"/>
+      <rect x="4" y="60.6" width="650" height="11.2" fill="var(--neutral)" opacity="0.85"/>
+      <rect x="4" y="12.0" width="650" height="48.6" fill="var(--positive)" opacity="0.85"/>
+      <line x1="4" y1="84.3" x2="654" y2="84.3" stroke="var(--muted)" stroke-width="0.6" stroke-dasharray="3,3" opacity="0.5"/><text x="659" y="87.3" class="chart-label" fill="var(--muted)" font-size="7.5">43</text>
+      <line x1="4" y1="71.8" x2="654" y2="71.8" stroke="var(--muted)" stroke-width="0.6" stroke-dasharray="3,3" opacity="0.5"/><text x="659" y="74.8" class="chart-label" fill="var(--muted)" font-size="7.5">52</text>
+      <line x1="4" y1="60.6" x2="654" y2="60.6" stroke="var(--muted)" stroke-width="0.6" stroke-dasharray="3,3" opacity="0.5"/><text x="659" y="63.6" class="chart-label" fill="var(--muted)" font-size="7.5">61</text>
+      <path d="M 4.0,78.8 L 14.2,71.9 L 24.3,75.6 L 34.5,73.1 L 44.6,70.6 L 54.8,70.6 L 64.9,69.4 L 75.1,69.4 L 85.2,70.6 L 95.4,70.6 L 105.6,69.4 L 115.7,74.4 L 125.9,74.4 L 136.0,75.6 L 146.2,80.6 L 156.3,78.1 L 166.5,81.9 L 176.7,80.6 L 186.8,79.4 L 197.0,81.9 L 207.1,80.6 L 217.3,84.4 L 227.4,84.4 L 237.6,91.8 L 247.8,91.8 L 257.9,93.1 L 268.1,94.3 L 278.2,94.3 L 288.4,94.3 L 298.5,96.8 L 308.7,96.8 L 318.8,94.3 L 329.0,93.1 L 339.2,93.1 L 349.3,94.3 L 359.5,93.1 L 369.6,96.8 L 379.8,96.8 L 389.9,94.3 L 400.1,96.8 L 410.2,95.6 L 420.4,95.6 L 430.6,95.6 L 440.7,94.3 L 450.9,95.6 L 461.0,93.1 L 471.2,94.3 L 481.3,93.1 L 491.5,91.8 L 501.7,90.6 L 511.8,99.3 L 522.0,98.1 L 532.1,91.8 L 542.3,96.8 L 552.4,96.8 L 562.6,101.8 L 572.8,103.1 L 582.9,104.3 L 593.1,106.8 L 603.2,108.1 L 613.4,110.6 L 623.5,113.1 L 633.7,110.6 L 643.8,113.1 L 654.0,111.8" fill="none" stroke="var(--price-line)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></path>
+      <text x="4" y="154" class="chart-label">2026-08-31</text>
+      <text x="654" y="154" class="chart-label" text-anchor="end">2026-11-26</text>
+    </svg>
+    
+        </div>
+        
+
+    
+
+    <div class="meta-row">
+      <div class="meta-block">
+        <div class="meta-label">Olumlu Sürükleyiciler</div>
+        <ul><li class='none'>—</li></ul>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Olumsuz Sürükleyiciler</div>
+        <ul><li>DXY</li><li>Bakır</li><li>Gümüş Teknik</li></ul>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Kalibrasyon Kapsamı</div>
+        <div class="coverage-stat">6/10 gösterge · ağırlığın %72'i</div>
+      </div>
+    </div>
+
+    <div class="section-label">Göstergeler</div>
+    <div class="legend">
+      <span class="badge badge-measured">İLİŞKİ ÖLÇÜLDÜ</span>
+      <span class="legend-text">bu göstergenin skora etkisi istatistiksel olarak doğrulandı</span>
+      &nbsp;&nbsp;·&nbsp;&nbsp;
+      <span class="badge badge-estimated">İLİŞKİ TAHMİNİ</span>
+      <span class="legend-text">veri gerçek ve canlı kaynaktan çekiliyor, ancak skora ne kadar etki etmesi gerektiği henüz istatistiksel olarak doğrulanmadı</span>
+    </div>
+    <div class="cards">
+      
+    <div class="card">
+      <div class="card-head">
+        <span class="card-name">DXY</span>
+        <span class="badge badge-measured">İLİŞKİ ÖLÇÜLDÜ</span>
+      </div>
+      <span class="card-weight">ağırlık %22.3</span>
+      <div class="card-value">103.80<span class="card-unit"> </span></div>
+      <div class="card-bar-track">
+        <div class="card-bar-fill" style="width:2%; background:var(--negative)"></div>
+      </div>
+      <div class="card-score">0/22 <span style="font-size:11px;color:var(--muted);">±0</span></div>
+      <div class="card-comment">ABD Dolar Endeksi</div>
+      <div class="card-context">1y içinde çok yüksek (z=+2.45, %98 dilim) | duyarlılık -1.0 -&gt; uygunluk -2.45</div>
+      
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <span class="card-name">US 10Y Faiz</span>
+        <span class="badge badge-measured">İLİŞKİ ÖLÇÜLDÜ</span>
+      </div>
+      <span class="card-weight">ağırlık %7.0</span>
+      <div class="card-value">4.91<span class="card-unit"> %</span></div>
+      <div class="card-bar-track">
+        <div class="card-bar-fill" style="width:43%; background:var(--muted)"></div>
+      </div>
+      <div class="card-score">3/7 <span style="font-size:11px;color:var(--muted);">±0</span></div>
+      <div class="card-comment">ABD 10 yıllık tahvil faizi</div>
+      <div class="card-context">1y içinde yüksek (z=+1.19, %90 dilim) | duyarlılık -0.5 -&gt; uygunluk -0.56</div>
+      
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <span class="card-name">TIPS 10Y Reel Getiri</span>
+        <span class="badge badge-measured">İLİŞKİ ÖLÇÜLDÜ</span>
+      </div>
+      <span class="card-weight">ağırlık %11.0</span>
+      <div class="card-value">2.79<span class="card-unit"> %</span></div>
+      <div class="card-bar-track">
+        <div class="card-bar-fill" style="width:18%; background:var(--negative)"></div>
+      </div>
+      <div class="card-score">2/11 <span style="font-size:11px;color:var(--muted);">±0</span></div>
+      <div class="card-comment">ABD 10 yillik TIPS bazli reel faiz (enflasyon etkisi cikarilmis)</div>
+      <div class="card-context">1y içinde yüksek (z=+1.74, %99 dilim) | duyarlılık -0.7 -&gt; uygunluk -1.15</div>
+      
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <span class="card-name">CFTC Net Pozisyon</span>
+        <span class="badge badge-measured">İLİŞKİ ÖLÇÜLDÜ</span>
+      </div>
+      <span class="card-weight">ağırlık %11.1</span>
+      <div class="card-value">15,446.00<span class="card-unit"> kontrat</span></div>
+      <div class="card-bar-track">
+        <div class="card-bar-fill" style="width:36%; background:var(--negative)"></div>
+      </div>
+      <div class="card-score">4/11 <span style="font-size:11px;color:var(--muted);">±0</span></div>
+      <div class="card-comment">Buyuk fonlarin net spekulatif pozisyonu (uzun - kisa)</div>
+      <div class="card-context">1y içinde normal (z=-0.69, %25 dilim) | duyarlılık +1.0 -&gt; uygunluk -0.69</div>
+      
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <span class="card-name">VIX</span>
+        <span class="badge badge-measured">İLİŞKİ ÖLÇÜLDÜ</span>
+      </div>
+      <span class="card-weight">ağırlık %5.5</span>
+      <div class="card-value">28.29<span class="card-unit"> </span></div>
+      <div class="card-bar-track">
+        <div class="card-bar-fill" style="width:17%; background:var(--negative)"></div>
+      </div>
+      <div class="card-score">1/6 <span style="font-size:11px;color:var(--muted);">±0</span></div>
+      <div class="card-comment">Küresel volatilite</div>
+      <div class="card-context">1y içinde çok yüksek (z=+2.71, %98 dilim) | duyarlılık -0.5 -&gt; uygunluk -1.35</div>
+      
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <span class="card-name">Brent Petrol</span>
+        <span class="badge badge-estimated">İLİŞKİ TAHMİNİ</span>
+      </div>
+      <span class="card-weight">ağırlık %3.3</span>
+      <div class="card-value">91.10<span class="card-unit"> $</span></div>
+      <div class="card-bar-track">
+        <div class="card-bar-fill" style="width:67%; background:var(--positive)"></div>
+      </div>
+      <div class="card-score">2/3 <span style="font-size:11px;color:var(--muted);">±0</span></div>
+      <div class="card-comment">Ham petrol fiyatı</div>
+      <div class="card-context">1y içinde normal (z=+0.15, %48 dilim) | duyarlılık +0.0 -&gt; uygunluk +0.00</div>
+      
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <span class="card-name">Bakır</span>
+        <span class="badge badge-measured">İLİŞKİ ÖLÇÜLDÜ</span>
+      </div>
+      <span class="card-weight">ağırlık %15.5</span>
+      <div class="card-value">5.47<span class="card-unit"> $</span></div>
+      <div class="card-bar-track">
+        <div class="card-bar-fill" style="width:12%; background:var(--negative)"></div>
+      </div>
+      <div class="card-score">2/16 <span style="font-size:11px;color:var(--muted);">±0</span></div>
+      <div class="card-comment">Bakır fiyatı (endüstriyel talep göstergesi)</div>
+      <div class="card-context">1y içinde düşük (z=-1.48, %11 dilim) | duyarlılık +1.0 -&gt; uygunluk -1.48</div>
+      
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <span class="card-name">Sanayi Üretimi (PMI Vekili)</span>
+        <span class="badge badge-estimated">İLİŞKİ TAHMİNİ</span>
+      </div>
+      <span class="card-weight">ağırlık %6.6</span>
+      <div class="card-value">102.24<span class="card-unit"> </span></div>
+      <div class="card-bar-track">
+        <div class="card-bar-fill" style="width:57%; background:var(--muted)"></div>
+      </div>
+      <div class="card-score">4/7 <span style="font-size:11px;color:var(--muted);">±0</span></div>
+      <div class="card-comment">FRED INDPRO - gerçek ISM PMI değil, bkz. kaynak notu</div>
+      <div class="card-context">1y içinde yüksek (z=+1.23, %97 dilim) | duyarlılık +0.3 -&gt; uygunluk +0.37</div>
+      
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <span class="card-name">Gümüş Teknik</span>
+        <span class="badge badge-estimated">İLİŞKİ TAHMİNİ</span>
+      </div>
+      <span class="card-weight">ağırlık %11.1</span>
+      <div class="card-value">41.92<span class="card-unit"> </span></div>
+      <div class="card-bar-track">
+        <div class="card-bar-fill" style="width:2%; background:var(--negative)"></div>
+      </div>
+      <div class="card-score">0/11 <span style="font-size:11px;color:var(--muted);">±0</span></div>
+      <div class="card-comment">MA50:False | MA200:False | Golden:False | Trend20:-6.0%</div>
+      <div class="card-context">[Fiyat Seviyesi] 1y icinde çok düşük (z=-2.11, %2 dilim)  |  [Puan Gerekcesi] MA50-, MA200-, Golden-, Momentum- -&gt; uygunluk -2.00</div>
+      
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <span class="card-name">Haber Akışı</span>
+        <span class="badge badge-estimated">İLİŞKİ TAHMİNİ</span>
+      </div>
+      <span class="card-weight">ağırlık %6.6</span>
+      <div class="card-value">32.99<span class="card-unit"> </span></div>
+      <div class="card-bar-track">
+        <div class="card-bar-fill" style="width:43%; background:var(--muted)"></div>
+      </div>
+      <div class="card-score">3/7 <span style="font-size:11px;font-weight:600;color:var(--positive);">▲+1</span></div>
+      <div class="card-comment">15 haber (dağınık risk) | baskın haber: &quot;Fed’s preferred inflation gauge accelerated to 3.8% in Oc...&quot; [Macro] | ağırlıklı risk: 33.0 | LLM ile zenginlestirildi</div>
+      <div class="card-context">İkinci bağımsız hikaye: &quot;Oil rises on supply concerns as Iran claims mine str...&quot; [Geopolitics]  |  referans 28.2 (kendi kendine kalibre edildi (medyan, son 37 gozlem), 37 gozlem)</div>
+      
+    </div>
+    
+    </div>
+
+    <div class="footer">
+      <span>26 Kasım 2026, 09:12</span>
+      <span>Bu bir öngörü değil, mevcut koşulların tarifidir</span>
+    </div>
+
+  </div>
+  <script>(function(){
+  var r=document.documentElement,b=document.getElementById('theme-toggle');
+  if(!b)return;
+  function light(){return r.getAttribute('data-theme')==='light';}
+  function label(){b.textContent=light()?'☾ Koyu':'☀ Açık';}
+  label();
+  b.addEventListener('click',function(){
+    if(light()){r.removeAttribute('data-theme');}else{r.setAttribute('data-theme','light');}
+    try{localStorage.setItem('ip-theme',light()?'light':'dark');}catch(e){}
+    label();
+  });
+})();</script>
+</body>
+</html>
